@@ -1,0 +1,97 @@
+﻿@model CartViewModel
+
+@{
+    ViewData["Title"] = "Корзина - интернет-магазин Знаки Внимания";
+}
+
+@if (Model == null || Model?.Items?.Count == 0)
+{
+    <h3 class="h3">Отсутсвуют товары в корзине</h3>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th class="text-end">Цена</th>
+                            <th class="text-end">Количество</th>
+                            <th class="text-end">Стоимость</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model!.Items!)
+                        {
+                            <tr class="text-nowrap" id="updateCartItem-@item?.Product?.Id">
+                                @await Component.InvokeAsync("CartItem", item?.Id)
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <h4 class="h4 text-end" id="updateCartCost">Итого: @await Component.InvokeAsync("CartCost") руб.</h4>
+                <div class="text-center">
+                    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index" role="button">Продолжить покупки</a>
+                    <a class="btn btn-outline-info" asp-controller="Order" asp-action="Index" role="button">Оформить заказ</a>
+                    <a class="btn btn-outline-danger" asp-controller="Cart" asp-action="Clear" role="button">Очистить корзину</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+    <script>
+        function UpdateIncreaseStatus(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddProductPartial", controller: "Cart")",
+                data: { productId: id },
+                success: function (result) {
+                    $("#updateNavbarIcons").html(result);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("UpdateQuantityProductPartial", controller: "Cart")",
+                        data: { productId: id },
+                        success: function (result) {
+                            $("#updateCartItem-" + id).html(result);
+                        },
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("UpdateCartCostPartial", controller: "Cart")",
+                        success: function (result) {
+                            $("#updateCartCost").html(result);
+                        }
+                    });
+                },
+            });
+        }
+        function UpdateReduceStatus(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ReduceQuantityProductPartial", controller: "Cart")",
+                data: { productId: id },
+                success: function (result) {
+                    $("#updateCartItem-" + id).html(result);
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("UpdateProductsCartPartial", controller: "Cart")",
+                        success: function (result) {
+                            $("#updateNavbarIcons").html(result);
+                        }
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("UpdateCartCostPartial", controller: "Cart")",
+                        success: function (result) {
+                            $("#updateCartCost").html(result);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,10 @@
+﻿@model string
+
+<a class="nav-link text-dark btn btn-outline-light" role="button" asp-area="" asp-controller="Favorites" asp-action="Index">
+    <div class="d-flex flex-column align-items-center">
+        <div>
+            <i class="bi bi-heart"></i><sub>@Model</sub>
+        </div>
+        <span>Избранное</span>
+    </div>
+</a>

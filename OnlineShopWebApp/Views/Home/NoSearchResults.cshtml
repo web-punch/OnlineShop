@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Знаки внимания - интернет-магазин цветов";
+}
+<div class="container">
+    @await Html.PartialAsync("Search")
+    <div class="text-center">
+        <h3 class="h3 mb-3">Упсс..... Товары, соответствующие Вашему запросу, не найдены!</h3>
+        <a class="btn btn-outline-secondary" role="button" asp-controller="Home" asp-action="Index">Продолжить покупки</a>
+    </div>
+</div>
+

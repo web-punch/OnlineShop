@@ -1,0 +1,72 @@
+﻿@model FavoritesViewModel
+
+@{
+    ViewData["Title"] = "Избранное - интернет-магазин Знаки Внимания";
+}
+
+@if (Model == null || Model?.Products?.Count == 0)
+{
+    <h3 class="h3">Отсутсвуют избранные товары</h3>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Наименование</th>
+                            <th class="text-end">Цена</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model!.Products!)
+                        {
+                            <tr class="text-nowrap">
+                                <td class="d-flex flex-column">
+                                    @if (product.ImagesPaths.Count > 0)
+                                    {
+                                        <img class="col-1 img-fluid" src="@product.ImagesPaths[product.ActiveIndexImagePath]" alt="@product.Name" />
+                                    }
+                                    <a class="link-info text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-id="@product?.Id">@product?.Name</a>
+                                </td>
+                                <td class="text-end">@product?.Cost руб.</td>
+                                <td class="text-end">
+                                    <button class="btn btn-outline-primary py-0" id="@product?.Id" onclick="UpdateCartStatus(this.id)" title="Добавить в корзину"><i class="bi bi-cart"></i></button>
+                                    <a class="btn btn-outline-dark py-0" asp-controller="Favorites" asp-action="Delete" asp-route-productId="@product?.Id" role="button" title="Убрать из избранного"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index" role="button">Продолжить покупки</a>
+                    <a class="btn btn-outline-danger" asp-controller="Favorites" asp-action="Clear" role="button">Очистить избранное</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts{
+    <script>
+        function UpdateCartStatus(id) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddProductPartial", controller: "Cart")",
+                data: { productId: id },
+                success: function (result) {
+                    $("#updateNavbarIcons").html(result);
+                },
+                error: function (errorCode, ex) {
+                    if (errorCode.status == 401) {
+                        var returnUrl = "/Cart/AddProduct?productId=" + id;
+                        window.location.replace("/Authorization/Login?returnUrl=" + returnUrl);
+                    }
+                },
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,75 @@
+﻿@model List<ProductViewModel>
+@{
+    ViewData["Title"] = "Продукты - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            @if (Model.Count < 1)
+            {
+                <h4 class="h4">Продукты отсутствуют</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="Product" asp-action="Add">Добавить новый продукт</a>
+            }
+            else
+            {
+                <h4 class="h4">Список продуктов</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="Product" asp-action="Add">Добавить новый продукт</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Наименование</th>
+                            <th>Цена</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+                                <td class="col-1">@(Model.IndexOf(product) + 1)</td>
+                                <td class="col-4">
+                                    <div class="d-flex flex-column">
+                                        @if (product.ImagesPaths.Count > 0)
+                                        {
+                                            <img class="col-2 img-fluid" src="@product.ImagesPaths[product.ActiveIndexImagePath]" alt="@product.Name" />
+                                        }
+                                        <a class="link-dark text-decoration-none" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@product.Id">@product.Name</a>
+                                    </div>
+                                </td>
+                                <td class="col-2">@product.Cost руб.</td>
+                                <td class="col-2"><a class="btn btn-outline-light text-primary" asp-area="Admin" asp-controller="Product" asp-action="Edit" asp-route-productId="@product.Id">Редактировать</a></td>
+                                <td class="col-2">
+                                    <button type="button" class="btn btn-outline-light text-primary" data-bs-toggle="modal" data-bs-target="#del_@product.Id">Удалить</button>
+                                    <div class="modal fade" id="del_@product.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Удалить @product.Name</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h5 class="h5">Подтвердите удаление</h5>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отмена</button>
+                                                    <a type="button" class="btn btn-outline-danger" asp-area="Admin" asp-controller="Product" asp-action="Delete" asp-route-productId="@product.Id">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

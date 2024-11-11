@@ -1,0 +1,46 @@
+﻿@model List<RoleViewModel>
+@{
+    ViewData["Title"] = "Роли - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            @if (Model.Count < 1)
+            {
+                <h4 class="h4">Роли отсутствуют</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="Role" asp-action="Add">Добавить новую роль</a>
+            }
+            else
+            {
+                <h4 class="h4">Список ролей</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="Role" asp-action="Add">Добавить новую роль</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Наименование</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                            <tr>
+                                <td class="col-1">@(Model.IndexOf(role) + 1)</td>
+                                <td class="col-9">@role.Name</td>
+                                <td class="col-2">
+                                    <a class="text-dark btn btn-outline-light py-0" asp-area="Admin" asp-controller="Role" asp-action="Remove" asp-route-name="@role.Name" role="button">Удалить <i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

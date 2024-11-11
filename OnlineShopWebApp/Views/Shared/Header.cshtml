@@ -1,0 +1,94 @@
+﻿<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Интернет-магазин Знаки Внимания</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> 
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1 justify-content-end" id="updateNavbarIcons">
+                    <li class="nav-item">
+                        @await Component.InvokeAsync("Favorites")
+                    </li>
+                    <li class="nav-item">
+                        @await Component.InvokeAsync("Cart")
+                    </li>
+                    <li class="nav-item">
+                        <div class="d-flex flex-column align-items-center">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="dropdown d-flex flex-column align-items-center">
+                                    @if (User.IsInRole(Constants.AdminRoleName))
+                                    {
+                                        <button class="text-dark btn btn-outline-light d-flex flex-column align-items-center dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person-gear"></i>
+                                            <span>Администратор</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Панель администратора</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a class="dropdown-item text-dark btn btn-outline-light" role="button"
+                                                   asp-area=""
+                                                   asp-controller="Authorization"
+                                                   asp-action="Logout">
+                                                    <span>Выйти</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <button class="text-dark btn btn-outline-light d-flex flex-column align-items-center dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-person-check"></i>
+                                            <span>@User.Identity.Name</span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                   asp-area=""
+                                                   asp-controller="UserPersonal"
+                                                   asp-action="Index">
+                                                    <span>Личные данные</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item"
+                                                   asp-area=""
+                                                   asp-controller="UserPersonal"
+                                                   asp-action="Orders">
+                                                    <span>Мои заказы</span>
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a class="dropdown-item text-dark btn btn-outline-light" role="button"
+                                                   asp-area=""
+                                                   asp-controller="Authorization"
+                                                   asp-action="Logout">
+                                                    <span>Выйти</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <button class="nav-link text-dark btn btn-outline-light" id="buttonLogin">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <div>
+                                            <i class="bi bi-person"></i>
+                                        </div>
+                                        <span>Войти</span>
+                                    </div>
+                                </button>
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

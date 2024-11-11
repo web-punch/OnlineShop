@@ -1,0 +1,48 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Редактирование пользователя - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            <h4 class="h4">Редактирование данных пользователя @Model.Name</h4>
+            <hr />
+            <form asp-area="Admin" asp-controller="User" asp-action="Edit" method="post">
+                <div class="validation" asp-validation-summary="ModelOnly"></div>
+                <input type="hidden" asp-for="Name" value="@Model.Name" />
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="col-3">Имя:</td>
+                            <td>
+                                <input asp-for="FirstName" class="form-control" value="@Model.FirstName" />
+                                <span asp-validation-for="FirstName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-3">Фамилия:</td>
+                            <td>
+                                <input asp-for="LastName" class="form-control" value="@Model.LastName" />
+                                <span asp-validation-for="LastName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-3">Номер телефона:</td>
+                            <td>
+                                <input asp-for="Phone" class="form-control" value="@Model.Phone" />
+                                <span asp-validation-for="Phone"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="mb-3 text-end">
+                    <button class="btn btn-outline-primary" type="submit">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

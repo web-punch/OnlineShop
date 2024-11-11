@@ -1,0 +1,44 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "Редактирование данных";
+}
+
+<div class="container">
+    <div class="col-10 m-auto pb-3 shadow-lg">
+        <h4 class="h4 ps-1">Редактирование данных</h4>
+        <hr />
+        <form asp-area="" asp-controller="UserPersonal" asp-action="Edit" method="post">
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="Name" value="@Model.Name" />
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-3">Имя:</td>
+                        <td>
+                            <input asp-for="FirstName" class="form-control" value="@Model.FirstName" />
+                            <span asp-validation-for="FirstName"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">Фамилия:</td>
+                        <td>
+                            <input asp-for="LastName" class="form-control" value="@Model.LastName" />
+                            <span asp-validation-for="LastName"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">Номер телефона:</td>
+                        <td>
+                            <input asp-for="Phone" class="form-control" value="@Model.Phone" />
+                            <span asp-validation-for="Phone"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="m-1 text-end">
+                <button class="btn btn-outline-primary" type="submit">Сохранить</button>
+            </div>
+        </form>
+    </div>
+
+</div>

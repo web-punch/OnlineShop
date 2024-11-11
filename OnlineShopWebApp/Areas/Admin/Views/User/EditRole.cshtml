@@ -1,0 +1,33 @@
+﻿@model RoleChangePage
+@{
+    ViewData["Title"] = "Редактировать роль - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            <h4 class="h4">Редактировать роль</h4>
+            <hr />
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="col-2">Выберите роль:</td>
+                        <td>
+                            <form class="d-flex flex-row gap-3" asp-area="Admin" asp-controller="User" asp-action="EditRole" method="post">
+                                <input type="hidden" asp-for="@Model.UserName" value="@Model.UserName" />
+                                <select asp-for="@Model.RoleName"
+                                        asp-items="@new SelectList(Model?.Roles?.Select(role => role.Name))"
+                                        class="form-select w-auto">
+                                </select>
+                                <button type="submit" class="btn btn-outline-success">Сохранить роль</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

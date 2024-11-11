@@ -1,0 +1,54 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.link-info:hover, .link-info:focus {
+    color: indigo;
+}
+.link-dark:hover, .link-dark:focus {
+    color: indigo;
+}
+.card-link:hover {
+    color: indigo;
+}
+.btn-outline-light:hover {
+    background-color: #dee2e6;
+    border-color: #dee2e6;
+}
+.btn-outline-light.active {
+    background-color: #dee2e6;
+    border-color: #dee2e6;
+}
+.field-validation-error {
+    color: #b94a48;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input.valid {
+    border: 1px solid #16a085;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}

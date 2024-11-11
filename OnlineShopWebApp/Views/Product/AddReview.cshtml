@@ -1,0 +1,27 @@
+﻿@model AddReview
+@{
+    ViewData["Title"] = "Добавить отзыв";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-10 shadow-lg">
+            <h4 class="h4 mb-3">Добавить отзыв</h4>
+            <form asp-area="" asp-controller="Product" asp-action="AddReview" method="post">
+                <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
+                <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+                <div class="mb-3 d-flex align-items-center gap-3">
+                    <label asp-for="Text" class="col-2 form-label">Отзыв</label>
+                    <textarea asp-for="Text" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="mb-3 d-flex align-items-center gap-3">
+                    <label asp-for="Grade" class="col-2 form-label">Оценка</label>
+                    <input type="number" min="0" max="5" step="1" asp-for="Grade" class="form-control w-auto" />
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-outline-dark w-25">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

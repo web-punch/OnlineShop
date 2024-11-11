@@ -1,0 +1,48 @@
+﻿@model List<UserViewModel>
+@{
+    ViewData["Title"] = "Пользователи - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            @if (Model.Count < 1)
+            {
+                <h4 class="h4">Пользователи отсутствуют</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="User" asp-action="Add">Добавить пользователя</a>
+            }
+            else
+            {
+                <h4 class="h4">Список пользователи</h4>
+                <a class="text-primary btn btn-outline-light px-0" asp-area="Admin" asp-controller="User" asp-action="Add">Добавить пользователя</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Логин</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Телефон</th>
+                            <th>Роль</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td class="col"><a class="link-dark text-decoration-none" asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-userName="@user.Name">@user.Name</a></td>
+                                <td class="col"><a class="link-dark text-decoration-none" asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-userName="@user.Name">@user.FirstName</a></td>
+                                <td class="col"><a class="link-dark text-decoration-none" asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-userName="@user.Name">@user.LastName</a></td>
+                                <td class="col"><a class="link-dark text-decoration-none" asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-userName="@user.Name">@user.Phone</a></td>
+                                <td class="col"><a class="link-dark text-decoration-none" asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-userName="@user.Name">@user.Role</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

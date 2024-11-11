@@ -1,0 +1,51 @@
+﻿@model List<OrderViewModel>
+
+<div class="container">
+    <div class="shadow-lg">
+        @if (Model.Count < 1)
+        {
+            ViewData["Title"] = "Заказы отсутствуют - интернет-магазин Знаки Внимания";
+            <h4 class="h4 ps-1">Заказы отсутствуют</h4>
+        }
+        else
+        {
+            ViewData["Title"] = $"Заказы пользователя {Model[0].UserName} - интернет-магазин Знаки Внимания";
+            <h4 class="h4 ps-1">Список заказов</h4>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                        <th>Дата</th>
+                        <th>Время</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="col">@order.Id.ToString().Split("-").Last()</td>
+                            <td class="col">@order.Cost руб.</td>
+                            <td class="col">@EnumHelper.GetDisplayName(order.Status!)</td>
+                            <td class="col">@order.DateTime.ToString("dd.MM.yyyy")</td>
+                            <td class="col">@order.DateTime.ToString("HH:mm")</td>
+                            <td class="col">
+                                <a class="link-info text-decoration-none" 
+                                   asp-area=""
+                                   asp-controller="UserPersonal"
+                                   asp-action="OrderDetails"
+                                   asp-route-orderId="@order.Id">
+                                   Подробнее
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+

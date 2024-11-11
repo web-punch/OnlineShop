@@ -1,0 +1,69 @@
+﻿@model OrderPageInfo
+@{
+    ViewData["Title"] = "Оформление заказа - интернет-магазин Знаки Внимания";
+}
+
+<div class="container">
+    <div class="row gap-3">
+        <div class="col shadow-lg">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Наименование</th>
+                        <th class="text-end">Цена</th>
+                        <th class="text-end">Количество</th>
+                        <th class="text-end">Стоимость</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Cart!.Items!)
+                    {
+                        <tr class="text-nowrap">
+                            <td class="text-start">
+                                <a class="link-info text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a>
+                            </td>
+                            <td class="text-end">@item?.Product?.Cost руб.</td>
+                            <td class="text-end">@item?.Amount</td>
+                            <td class="text-end">@item?.Cost руб.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <h4 class="h4 text-end">Итого: @Model.Cart.Cost руб.</h4>
+        </div>
+        <div class="col shadow-lg">
+            <form asp-controller="Order" asp-action="Index" method="post">
+                <div class="validation" asp-validation-summary="ModelOnly"></div>
+                <div class="mb-3">
+                    <label asp-for="OrderInfo!.FullName" class="form-label">ФИО</label>
+                    <input asp-for="OrderInfo!.FullName" class="form-control" placeholder="Иванов Иван Иванович" required />
+                    <span asp-validation-for="OrderInfo!.FullName"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="OrderInfo!.Email" class="form-label">E-mail</label>
+                    <input type="email" asp-for="OrderInfo!.Email" class="form-control" placeholder="name@example.com" required />
+                    <span asp-validation-for="OrderInfo!.Email"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="OrderInfo!.Tel" class="form-label">Телефон</label>
+                    <input asp-for="OrderInfo!.Tel" class="form-control" placeholder="+799999999999" required />
+                    <span asp-validation-for="OrderInfo!.Tel"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="OrderInfo!.Address" class="form-label">Адрес</label>
+                    <input asp-for="OrderInfo!.Address" class="form-control" placeholder="г. Муром, ул. Муромская, д. 1, кв. 1" required />
+                    <span asp-validation-for="OrderInfo!.Address"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="OrderInfo!.Comment" class="form-label">Комментарий к заказу</label>
+                    <textarea asp-for="OrderInfo!.Comment" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3 text-center">
+                    <a class="btn btn-outline-secondary" role="button" asp-controller="Home" asp-action="Index">Продолжить покупки</a>
+                    <input type="submit" class="btn btn-outline-info" value="Подтвердить заказ" />
+                    <input type="reset" class="btn btn-outline-danger" value="Очистить форму" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

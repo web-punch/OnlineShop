@@ -1,0 +1,76 @@
+﻿@using OnlineShop.Db.Models
+@model OrderViewModel
+@{
+    ViewData["Title"] = $"Заказ №{Model.Id}";
+}
+
+<div class="container">
+    <div class="pb-3 shadow-lg">
+        <h4 class="h4 ps-1">Заказ № @Model.Id</h4>
+        <hr />
+        <table class="table mb-5 shadow-sm">
+            <thead>
+                <tr>
+                    <th>Наименование</th>
+                    <th class="text-end">Цена</th>
+                    <th class="text-end">Количество</th>
+                    <th class="text-end">Стоимость</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items!)
+                {
+                    <tr class="text-nowrap">
+                        <td class="text-start">
+                            <a class="link-info text-decoration-none" asp-area="" asp-controller="Product" asp-action="Index" asp-route-id="@item?.Product?.Id">@item?.Product?.Name</a>
+                        </td>
+                        <td class="text-end">@item?.Product?.Cost руб.</td>
+                        <td class="text-end">@item?.Amount</td>
+                        <td class="text-end">@item?.Cost руб.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="table shadow-sm">
+            <tbody>
+                <tr>
+                    <td class="text-nowrap">Дата и время оформления:</td>
+                    <td>@Model.DateTime.ToString("dd.MM.yyyy") в @Model.DateTime.ToString("HH:mm")</td>
+                </tr>
+                <tr>
+                    <td>Адрес доставки:</td>
+                    <td class="text-break">@Model.Info?.Address</td>
+                </tr>
+                <tr>
+                    <td>Получатель:</td>
+                    <td>@Model.Info?.FullName</td>
+                </tr>
+                <tr>
+                    <td>Телефон:</td>
+                    <td>@Model.Info?.Tel</td>
+                </tr>
+                <tr>
+                    <td>E-mail:</td>
+                    <td>@Model.Info?.Email</td>
+                </tr>
+                <tr>
+                    <td>Комментарий:</td>
+                    <td class="text-break">@Model.Info?.Comment</td>
+                </tr>
+                <tr>
+                    <td>Сумма заказа:</td>
+                    <td>@Model.Cost руб.</td>
+                </tr>
+                <tr>
+                    <td>Статус заказа:</td>
+                    <td>@EnumHelper.GetDisplayName(Model.Status!)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+

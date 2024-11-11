@@ -1,0 +1,51 @@
+﻿@model List<OrderViewModel>
+@{
+    ViewData["Title"] = "Заказы - Панель администратора";
+}
+
+<div class="container">
+    <div class="row gap-3 flex-nowrap">
+        <div class="col-2 shadow-lg">
+            @await Html.PartialAsync("AdminMenu")
+        </div>
+        <div class="col-10 shadow-lg">
+            @if (Model.Count < 1)
+            {
+                <h4 class="h4">Заказы отсутствуют</h4>
+            }
+            else
+            {
+                <h4 class="h4">Список заказов</h4>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Сумма</th>
+                            <th>Статус</th>
+                            <th class="text-nowrap">Пользователь (логин)</th>
+                            <th>Дата</th>
+                            <th>Время</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td class="col-1">@(Model.IndexOf(order) + 1)</td>
+                                <td class="col">@order.Cost руб.</td>
+                                <td class="col">@EnumHelper.GetDisplayName(order.Status!)</td>
+                                <td class="col-3">@order.UserName</td>
+                                <td class="col">@order.DateTime.ToString("dd.MM.yyyy")</td>
+                                <td class="col">@order.DateTime.ToString("HH:mm")</td>
+                                <td class="col"><a class="link-info text-decoration-none" asp-area="Admin" asp-controller="Order" asp-action="Details" asp-route-id="@order.Id">Подробнее</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
